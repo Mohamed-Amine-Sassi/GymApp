@@ -1,8 +1,7 @@
 "use client";
 import { CheckCircle } from "lucide-react";
 
-
-export default function {
+export default function () {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50">
       <div className="bg-gray-800 border border-gray-700 rounded-lg shadow-2xl p-8 max-w-md w-full relative">
@@ -20,10 +19,8 @@ export default function {
           </h2>
 
           <p className="text-gray-100 font-mono mb-6 leading-relaxed">
-            <span className="text-orange-500 font-bold">
-              
-            </span>{" "}
-             successfully registered a new member.
+            <span className="text-orange-500 font-bold"></span> successfully
+            registered a new member.
           </p>
 
           <div className="bg-gray-900 border border-gray-600 rounded p-4 mb-6">
