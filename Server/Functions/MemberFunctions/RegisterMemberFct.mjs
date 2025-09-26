@@ -21,5 +21,6 @@ const registerMember = (req, res) => {
     .catch((err) => {
       console.log(err);
     });
+  return res.sendStatus(200);
 };
 export default registerMember;

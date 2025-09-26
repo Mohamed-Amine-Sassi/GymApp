@@ -1,12 +1,15 @@
 "use client";
 
 import type React from "react";
-
+import RegistrationSuccessPopup from "./PopupMsg";
 import { useState } from "react";
 import axios, { isAxiosError } from "axios";
 import useAdminCheck from "./AdminCheck";
 import { useSecurityContext } from "../Context/SecurityContext";
-
+interface NameProp {
+  firstName: string;
+  lastName: string;
+}
 function AddMember() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -14,6 +17,8 @@ function AddMember() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [specialty, setSpecialty] = useState(" ");
   const { accessToken, setAccessToken } = useSecurityContext();
+  const [status, setStatus] = useState(0);
+
   const auth = useAdminCheck();
 
   const registerMember = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -30,12 +35,13 @@ function AddMember() {
           timeout: 5000,
         }
       );
+      setStatus(res.status);
       setFirstName("");
       setLastName("");
       setDateOfBirth("");
       setPhoneNumber("");
       setSpecialty("");
-      console.log("Done:", res);
+      console.log("Done:", res.status);
     } catch (err) {
       if (isAxiosError(err)) {
         try {
@@ -99,108 +105,113 @@ function AddMember() {
     );
   } else {
     return (
-      <div className="min-h-screen bg-gray-900 p-8">
-        <div className="max-w-2xl mx-auto">
-          <h1 className="text-3xl font-bold text-gray-100 mb-6 tracking-wide">
-            <span className="text-orange-500">MEMBER </span>
-            REGISTRATION
-          </h1>
+      <>
+        {status ? <RegistrationSuccessPopup /> : null}
+        <div className="min-h-screen bg-gray-900 p-8">
+          <div className="max-w-2xl mx-auto">
+            <h1 className="text-3xl font-bold text-gray-100 mb-6 tracking-wide">
+              <span className="text-orange-500">MEMBER </span>
+              REGISTRATION
+            </h1>
 
-          <div className="bg-gray-800 border border-gray-700 rounded-lg shadow-xl p-6">
-            <h2 className="text-xl font-semibold text-orange-500 mb-6 uppercase tracking-wider">
-              Add New Member
-            </h2>
+            <div className="bg-gray-800 border border-gray-700 rounded-lg shadow-xl p-6">
+              <h2 className="text-xl font-semibold text-orange-500 mb-6 uppercase tracking-wider">
+                Add New Member
+              </h2>
 
-            <form onSubmit={registerMember} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-orange-500 font-bold text-sm uppercase tracking-wide mb-2">
-                    First Name:
-                  </label>
-                  <input
-                    type="text"
-                    value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
-                    className="w-full bg-gray-900 border border-gray-600 rounded px-4 py-3 text-gray-100 font-mono focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-orange-500 font-bold text-sm uppercase tracking-wide mb-2">
-                    Last Name:
-                  </label>
-                  <input
-                    type="text"
-                    value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
-                    className="w-full bg-gray-900 border border-gray-600 rounded px-4 py-3 text-gray-100 font-mono focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-orange-500 font-bold text-sm uppercase tracking-wide mb-2">
-                    Phone Number:
-                  </label>
-                  <input
-                    type="text"
-                    value={phoneNumber}
-                    onChange={(e) => setPhoneNumber(e.target.value)}
-                    className="w-full bg-gray-900 border border-gray-600 rounded px-4 py-3 text-gray-100 font-mono focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-orange-500 font-bold text-sm uppercase tracking-wide mb-2">
-                    Date of Birth:
-                  </label>
-                  <input
-                    type="date"
-                    value={dateOfBirth}
-                    onChange={(e) => setDateOfBirth(e.target.value)}
-                    className="w-full bg-gray-900 border border-gray-600 rounded px-4 py-3 text-gray-100 font-mono focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <div className="bg-gray-900 border border-gray-600 rounded p-4 mb-6">
-                  <div className="text-orange-500 font-bold text-sm uppercase tracking-wide">
-                    Role Assignment
+              <form onSubmit={registerMember} className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-orange-500 font-bold text-sm uppercase tracking-wide mb-2">
+                      First Name:
+                    </label>
+                    <input
+                      type="text"
+                      value={firstName}
+                      onChange={(e) => setFirstName(e.target.value)}
+                      className="w-full bg-gray-900 border border-gray-600 rounded px-4 py-3 text-gray-100 font-mono focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                    />
                   </div>
-                  <div className="text-gray-100 font-mono text-lg">MEMBER</div>
+
+                  <div>
+                    <label className="block text-orange-500 font-bold text-sm uppercase tracking-wide mb-2">
+                      Last Name:
+                    </label>
+                    <input
+                      type="text"
+                      value={lastName}
+                      onChange={(e) => setLastName(e.target.value)}
+                      className="w-full bg-gray-900 border border-gray-600 rounded px-4 py-3 text-gray-100 font-mono focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                    />
+                  </div>
                 </div>
-              </div>
 
-              <div>
-                <label className="block text-orange-500 font-bold text-sm uppercase tracking-wide mb-2">
-                  Specialty:
-                </label>
-                <select
-                  value={specialty}
-                  onChange={(e) => setSpecialty(e.target.value)}
-                  className="w-full bg-gray-900 border border-gray-600 rounded px-4 py-3 text-gray-100 font-mono focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-orange-500 font-bold text-sm uppercase tracking-wide mb-2">
+                      Phone Number:
+                    </label>
+                    <input
+                      type="text"
+                      value={phoneNumber}
+                      onChange={(e) => setPhoneNumber(e.target.value)}
+                      className="w-full bg-gray-900 border border-gray-600 rounded px-4 py-3 text-gray-100 font-mono focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-orange-500 font-bold text-sm uppercase tracking-wide mb-2">
+                      Date of Birth:
+                    </label>
+                    <input
+                      type="date"
+                      value={dateOfBirth}
+                      onChange={(e) => setDateOfBirth(e.target.value)}
+                      className="w-full bg-gray-900 border border-gray-600 rounded px-4 py-3 text-gray-100 font-mono focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <div className="bg-gray-900 border border-gray-600 rounded p-4 mb-6">
+                    <div className="text-orange-500 font-bold text-sm uppercase tracking-wide">
+                      Role Assignment
+                    </div>
+                    <div className="text-gray-100 font-mono text-lg">
+                      MEMBER
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-orange-500 font-bold text-sm uppercase tracking-wide mb-2">
+                    Specialty:
+                  </label>
+                  <select
+                    value={specialty}
+                    onChange={(e) => setSpecialty(e.target.value)}
+                    className="w-full bg-gray-900 border border-gray-600 rounded px-4 py-3 text-gray-100 font-mono focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  >
+                    <option value="">-- Select Specialty --</option>
+                    <option value="Karate">Karate</option>
+                    <option value="Musculation">Musculation</option>
+                    <option value="Gymnastique">Gymnastique</option>
+                    <option value="Box">Box</option>
+                    <option value="MMA">MMA</option>
+                  </select>
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full bg-orange-500 hover:bg-orange-600 text-gray-900 font-bold py-3 px-6 rounded uppercase tracking-wider transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-gray-800"
                 >
-                  <option value="">-- Select Specialty --</option>
-                  <option value="Karate">Karate</option>
-                  <option value="Musculation">Musculation</option>
-                  <option value="Gymnastique">Gymnastique</option>
-                  <option value="Box">Box</option>
-                  <option value="MMA">MMA</option>
-                </select>
-              </div>
-
-              <button
-                type="submit"
-                className="w-full bg-orange-500 hover:bg-orange-600 text-gray-900 font-bold py-3 px-6 rounded uppercase tracking-wider transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-gray-800"
-              >
-                Register Member
-              </button>
-            </form>
+                  Register Member
+                </button>
+              </form>
+            </div>
           </div>
         </div>
-      </div>
+      </>
     );
   }
 }

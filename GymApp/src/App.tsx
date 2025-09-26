@@ -10,8 +10,8 @@ function App() {
     <>
       <Routes>
         <Route path="/register" element={<Register />}></Route>
-        <Route path="/login" element={<Login />}></Route>
-        <Route path="/" element={<AdminDashboard />}></Route>
+        <Route path="/" element={<Login />}></Route>
+        <Route path="/admin_dashboard" element={<AdminDashboard />}></Route>
         <Route path="/add_member" element={<AddMember />}></Route>
         <Route path="/get_member" element={<GetMember />}></Route>
         <Route path="/get_ended_member" element={<GetEndedMember />}></Route>
