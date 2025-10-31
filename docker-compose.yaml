@@ -1,0 +1,40 @@
+services:
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    container_name: mongoGymApp
+    volumes:
+      - mongo-data:/data/db
+  backend:
+    container_name: backendGymApp
+    build: ./Server
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/GymApp
+    depends_on:
+      - mongo
+    env_file:
+      - ./Server/.env
+    volumes:
+      - ./Server:/app
+      - /app/node_modules
+  frontend:
+    container_name: frontendGymApp
+    build: ./GymApp
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./GymApp/src:/app/src
+      - /app/node_modules
+    depends_on:
+      - backend
+    env_file:
+      - ./GymApp/.env
+    environment:
+      - name=value
+  
+  
+volumes:
+  mongo-data:

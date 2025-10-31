@@ -11,13 +11,13 @@ const port = process.env.port || 3000;
 import authMiddleware from "./Functions/AuthFunctions/authMiddleware.mjs";
 //data base related
 import mongoose from "mongoose";
-mongoose.connect(process.env.MongooseLink);
+mongoose.connect(process.env.MongooseLink || "mongodb://mongo:27017/GymApp");
 //Cros platform
 import cors from "cors";
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173", "http://frontendGymApp:5173"],
     credentials: true,
   })
 );

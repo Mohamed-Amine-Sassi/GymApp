@@ -63,10 +63,8 @@ export default function AdminDashboard() {
                 <h2 className="text-xl font-semibold text-orange-500 mb-4 uppercase tracking-wider">
                   Owner
                 </h2>
-                <p className="text-gray-300 leading-relaxed">Houcine Meddeb:</p>
-                <p className="text-gray-300 leading-relaxed">
-                  Phone Number: 28 321 593
-                </p>
+                <p className="text-gray-300 leading-relaxed">GYM NAME:</p>
+                <p className="text-gray-300 leading-relaxed">Phone Number:</p>
 
                 <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="bg-gray-800 border border-gray-600 rounded p-4">
